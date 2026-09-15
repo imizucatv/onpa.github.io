@@ -320,6 +320,16 @@
 										<input type="email" placeholder="例）sample@po11.canet.ne.jp" name="email" class="wfull validate[required,custom[email]]">
 									</dd>
 								</dl>
+							    <dl>
+									<dt>
+										<p class="name">シミュレーション結果添付</p>
+										<p class="option" style="background:#6c757d; color:#fff; font-size:11px; padding:2px 6px; border-radius:3px; margin-left:8px; display:inline-block;">任意</p>
+									</dt>
+									<dd>
+										<input type="file" id="pdf-attachment" name="pdf_file" accept=".pdf,image/*" class="wfull" style="padding: 8px 0;">
+										<p id="pdf-status" style="color: #28a745; font-size: 13px; font-weight: bold; margin-top: 5px;"></p>
+									</dd>
+								</dl>
 								<dl>
 									<dt>
 										<p class="name">ご相談内容・ご質問・その他</p>
@@ -394,18 +404,48 @@
        document.getElementById('close-sim-btn').addEventListener('click', () => simModal.close());
        simModal.addEventListener('click', (e) => { if (e.target === simModal) simModal.close(); });
     </script>
-    <!-- シミュレーター用スクリプト（追加箇所） -->
+    <!-- シミュレーター用スクリプト（修正版） -->
     <script>
-        const simulatorModal = document.getElementById('simulator-modal');
-        const openSimBtn = document.getElementById('open-simulator-btn');
-        const closeSimBtn = document.getElementById('close-simulator-btn');
+       const simulatorModal = document.getElementById('simulator-modal');
+       const openSimBtn = document.getElementById('open-simulator-btn');
+       const closeSimBtn = document.getElementById('close-simulator-btn');
 
-        openSimBtn.addEventListener('click', () => simulatorModal.showModal());
-        closeSimBtn.addEventListener('click', () => simulatorModal.close());
-        simulatorModal.addEventListener('click', (e) => {
-            if (e.target === simulatorModal) simulatorModal.close();
-        });
-    </script>
+       // 1. ポップアップの開閉処理
+       openSimBtn.addEventListener('click', () => simulatorModal.showModal());
+       closeSimBtn.addEventListener('click', () => simulatorModal.close());
+       simulatorModal.addEventListener('click', (e) => {
+           if (e.target === simulatorModal) simulatorModal.close();
+       });
+
+       // 2. シミュレーター（iframe）からPDFデータが届いた時の自動セット処理
+       window.addEventListener('message', (event) => {
+           // 送られてきたデータが PDF添付リクエストか確認
+           if (event.data && event.data.type === 'ATTACH_SIMULATOR_PDF') {
+               const pdfBlob = event.data.blob;
+               
+               // 送信用の File オブジェクトに変換
+               const file = new File([pdfBlob], '料金試算結果.pdf', { type: 'application/pdf' });
+               
+               // DataTransfer API を使って <input type="file" id="pdf-attachment"> にセット
+               const dataTransfer = new DataTransfer();
+               dataTransfer.items.add(file);
+               
+               const fileInput = document.getElementById('pdf-attachment');
+               if (fileInput) {
+                   fileInput.files = dataTransfer.files;
+               }
+
+               // 添付完了メッセージを表示
+               const statusEl = document.getElementById('pdf-status');
+               if (statusEl) {
+                   statusEl.textContent = '✅ 見積書PDFがフォームに自動添付されました';
+               }
+
+               // ポップアップを自動で閉じる
+               simulatorModal.close();
+           }
+       });
+   </script>
 </body>
 </html>
 
