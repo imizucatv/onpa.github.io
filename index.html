@@ -1,208 +1,355 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>射水ケーブル 新湊博物館 音声ガイド</title>
-<link rel="stylesheet" href="./lib/css/bulma.min.css">
-
-<style>
-  html, body {
-    height: 100%;
-    margin: 0;
-  }
-
-  body {
-    background-image: url('./images/background.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-attachment: fixed;
-  }
-</style>
-
-<script defer type="module">
-    import { CIScanner, CIScannerError } from "./lib/tssciv2.min.js";
-
-    const startButton = document.getElementById("start");
-    const stopButton = document.getElementById("stop");
-    const progress = document.getElementById("progress");
-    const content = document.getElementById("content");
-
-    const guideList = Array.from(content.querySelectorAll("audio"));
-    const imageList = Array.from(content.querySelectorAll("figure"));
-
-    startButton.addEventListener("click", start);
-    stopButton.addEventListener("click", stop);
-
-    // ConfigToken
-    let queryParams = new URLSearchParams(window.location.search)            
-    let configToken = queryParams.get("t");
-    if (!configToken) {
-        configToken = prompt("ConfigTokenを入力:");
-    }
-    if (!configToken) {
-        startButton.setAttribute('disabled', '');
-    }
-    const scanner = new CIScanner(configToken)
-
-    let lastReceived = '';
-
-    scanner.onDataReceived = (data) => {
-        console.log(`Received data: ID=${data}`);
-        if (lastReceived === data) {
-            return;
-        }
-
-        lastReceived = data;
-
-        stopAudio();
-
-        const num = parseInt(data.charAt(data.length - 1));
-        if (!isNaN(num)) {
-            // TIDの末尾
-            // 1, 4, 7 -> index = 0
-            // 2, 5, 8 -> index = 1
-            // 3, 6, 9, 0 -> index = 2
-            const index = (num + 2) % 3;
-            playAudio(guideList[index], imageList[index]);
-        } 
-    };
-
-    async function start() {
-        try {
-            startButton.setAttribute('disabled', '');
-            stopButton.removeAttribute('disabled');
-
-            await Promise.all(guideList.map(async (audio) => {
-                await audio.play();
-                await new Promise(resolve => setTimeout(resolve, 0)); // Safariのみ、pauseを次のイベントループで処理する必要がある
-                audio.pause();
-            }));
-
-            await scanner.start();
-
-            progress.style.display = "block";
-
-        } catch (e) {
-            reset();
-            alert(e)
-        }
-    }
-
-    async function stop() {
-        await scanner.stop();
-        stopAudio();
-        reset();
-    }
-
-    function reset() {
-        startButton.removeAttribute('disabled');
-        stopButton.setAttribute('disabled', '');
-        progress.style.display = "none";
-        lastReceived = ''
-    }
-
-    function playAudio(audio, img) {
-        audio.currentTime = 0;
-        audio.setAttribute('controls', '');
-        audio.play();
-
-        img.style.display = "block";
-    }
-
-    function stopAudio() {
-        guideList.forEach((audio) => {
-            audio.pause();
-            audio.removeAttribute('controls');
-        });
-
-        imageList.forEach((img) => {
-            img.style.display = "none";
-        });
-    }
-
-    // document.addEventListener('visibilitychange', () => {
-    //     if (document.visibilityState === 'hidden') {
-    //         stop();
-    //     }
-    // });
-
-</script>
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-MP6L5D2W');</script>
+	<!-- End Google Tag Manager -->
+	<meta charset="UTF-8">
+	<title>インターネット光10G・1Gの夏キャンペーン｜射水ケーブルネットワーク 最大10万円還元</title>
+	<meta name="description" content="射水ケーブルネットワークの夏キャンペーン実施中(2026年7月1日〜8月31日)。速さ重視の光10Gが月額6,270円、安さ重視の光1Gが月額3,927円(税込)。標準工事費無料、最大2万円キャッシュバック、最大2ヶ月月額無料、他社違約金最大10万円還元。射水市・高岡市牧野地区対応。">
+	<meta name="format-detection" content="telephone=no,address=no,email=no">
+	<meta name="viewport" content="width=device-width" />
+	<link rel="icon" href="img/favicon.ico">
+	<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css">
+	<link href="css/reset.css" rel="stylesheet" type="text/css">
+	<link href="css/top.css" rel="stylesheet" type="text/css">
 </head>
-<body class="has-navbar-fixed-bottom">
-    <section class="section">
-        <div class="container">
-            <h1 class="title is-4" "color: white;">ケーブル博物館 音声ガイド</h1>
-            <p class="subtitle">DEAD</p>
+<body>
+	<!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MP6L5D2W"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
 
-        </div>
-        <div>
-            <div id="content">
-                <figure style="display: none;">
-                    <img src="./images/guide1.jpg" />
-                    <figcaption>ガイド1: ウマ</figcaption>
-                </figure>        
-                <figure style="display: none;">
-                    <img src="./images/guide2.jpg" />
-                    <figcaption>ガイド2: 石黒信由様</figcaption>
-                </figure>
-                <figure style="display: none;">
-                    <img src="./images/guide3.jpg" />
-                    <figcaption>ガイド3: 小豆洗い</figcaption>
-                </figure>
-                <audio src="./audio/guide1.mp3" type="audio/mp3"></audio>
-                <audio src="./audio/guide2.mp3" type="audio/mp3"></audio>                
-                <audio src="./audio/guide3.mp3" type="audio/mp3"></audio>
-            </div>
-            
-            <!-- ボタンエリア（追加箇所） -->
-            <p class="buttons">
-                <button class="button is-primary is-medium " id="start">ひらけゴマ</button>
-                <button class="button is-danger is-medium" id="stop" disabled>とじよゴマ</button>
-                <button class="button is-info is-medium" id="open-simulator-btn">料金シミュレーター</button>
-            </p>
-            
-            <progress class="progress is-small is-primary is-info" max="100" id="progress" style="display: none;"></progress>
-        </div>
-    </section>
-    
-    <footer class="footer navbar is-fixed-bottom" style="padding: 0;">
-        <div class="navbar-brand">
-            <p class="navbar-item">c2025 Imizu Cable Network, Inc.</p>
-        </div>
-    </footer>
 
-    <!-- シミュレーター用ポップアップモーダル（追加箇所） -->
-    <dialog id="simulator-modal" style="width: 90%; max-width: 900px; height: 85vh; border: none; border-radius: 12px; padding: 0; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background-color: #f8f9fa; border-bottom: 1px solid #dee2e6;">
-            <span style="font-weight: bold; font-size: 16px; color: #333;">射水ケーブルネットワーク 料金シミュレーター</span>
-            <button id="close-simulator-btn" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #6c757d;">&times;</button>
-        </div>
-        <iframe 
-            src="https://imizucatv.github.io/cable-simulator/campaign.html" 
-            style="width: 100%; height: calc(100% - 53px); border: none;" 
-            title="射水ケーブルネットワーク 料金シミュレーター">
-        </iframe>
-    </dialog>
-    <script>
-       const simModal = document.getElementById('sim-modal');
-       document.getElementById('open-sim-btn').addEventListener('click', () => simModal.showModal());
-       document.getElementById('close-sim-btn').addEventListener('click', () => simModal.close());
-       simModal.addEventListener('click', (e) => { if (e.target === simModal) simModal.close(); });
-    </script>
-    <!-- シミュレーター用スクリプト（追加箇所） -->
-    <script>
-        const simulatorModal = document.getElementById('simulator-modal');
-        const openSimBtn = document.getElementById('open-simulator-btn');
-        const closeSimBtn = document.getElementById('close-simulator-btn');
+	<main id="lp-main">
+		<div class="main-area">
+			<picture>
+				<source srcset="img/fv_spr.jpg" media="(min-width: 768px)">
+				<img src="img/fv_sprsp.png" alt="この夏、あなたにぴったりのネットを。射水ケーブルネットワークの夏キャンペーン。速さ重視派の光10Gが月額6,270円(税込)、安さ重視派の光1Gが月額3,927円(税込)。標準工事費無料、最大2万円キャッシュバック、最大2ヶ月間月額利用料無料、他社違約金キャッシュバック最大10万円。2026年7月1日〜8月31日まで。">
+			</picture>
+		</div>	 
+		 
+		<!--section01-->
+		<section class="section sec01">
+			<div class="inner center">
 
-        openSimBtn.addEventListener('click', () => simulatorModal.showModal());
-        closeSimBtn.addEventListener('click', () => simulatorModal.close());
-        simulatorModal.addEventListener('click', (e) => {
-            if (e.target === simulatorModal) simulatorModal.close();
-        });
-    </script>
+		<!--	<picture>-->
+		<!--	<source srcset="img/sec1-build&ttl.png" media="(min-width: 768px)">-->
+		<!--		<img class="pd-top" src="img/sec1-logottl-sp.png" alt="">-->
+		<!--		</picture>-->
+
+			<picture>
+			<source srcset="img/sec1-build&ttl1.png" media="(min-width: 768px)">
+				<img class="pd-top" src="img/sec1-logottl-sp1.png" alt="">
+				</picture>
+			<picture>
+			<source srcset="img/sec1-build&ttl2.png" media="(min-width: 768px)">
+				<img class="pd-top" src="img/sec1-logottl-sp2.png" alt="">
+				</picture>
+			<picture>
+			<source srcset="img/sec1-build&ttl3.png" media="(min-width: 768px)"  id="cam01">
+				<img class="pd-top" src="img/sec1-logottl-sp3.png" alt="">
+				</picture>
+
+		<!--		<picture> -->
+		<!--			<source srcset="img/sec1-family.png" media="(min-width: 768px)"> -->
+		<!--			<img src="img/sec1-family-sp.png" alt=""> -->
+		<!--		</picture> -->
+			</div>	 
+		</section>
+
+		<section class="section sec-mesh">
+			<div class="inner center">
+				<div class="ttl">
+					<picture>
+						<source srcset="img/mesh-ttl_pc.png" media="(min-width: 768px)">
+						<img src="img/mesh-ttl_sp.png" alt="ケーブルスマホで、さらにおトク！スマホ端末代込みで月々1,320円(税込)から。スマホ利用料550円/月(3GB)、端末代770円/月〜。※スマホ利用料は光テレビ+光ネット(1G継続割または10G継続割)の契約が必要。端末代はAQUOS wish5・48回払いの場合。">
+					</picture> 
+				</div>
+			</div>
+		</section>
+		 
+		<!--section02-->
+		<section class="section sec02">
+			<div class="inner center">
+				<div class="img-ttl2 pconly"><img src="img/sec02-ttlspr_pc.png" alt="通信費を見直しませんか？他社は通信費が計7,755円(他社スマートフォン約2,035円＋他社インターネット約5,720円)。射水ケーブルネットワーク(ICN)なら計5,247円(ケーブルスマホ1,320円＋インターネット3,927円)で、毎月2,500円おトク、年間約30,000円の節約。※1 音声機能付きSIM 3GB爆割プランの場合、※2 光1G継続割の場合、※3 別途テレビサービス利用料がかかります。"></div>
+				<div class="img-ttl2 sponly"><img src="img/sec02-ttlspr_sp.png" alt="通信費を見直しませんか？他社は通信費が計7,755円(他社スマートフォン約2,035円＋他社インターネット約5,720円)。射水ケーブルネットワーク(ICN)なら計5,247円(ケーブルスマホ1,320円＋インターネット3,927円)で、毎月2,500円おトク、年間約30,000円の節約。※1 音声機能付きSIM 3GB爆割プランの場合、※2 光1G継続割の場合、※3 別途テレビサービス利用料がかかります。"></div>	 
+<!--				<div class="tab-2">
+					<label>
+						<input type="radio" name="tab-2" checked>戸建住宅
+					</label>
+					<div>
+						<picture>
+							<source srcset="img/sec2-detachedwinCP.png" media="(min-width: 768px)">
+							 <img src="img/sec2-detachedwinCP-sp.png" alt="">
+						  </picture>
+					</div>
+					
+					<label>
+						<input type="radio" name="tab-2">集合住宅
+					</label>
+					<div>
+						<picture>
+							<source srcset="img/sec2-setwinCP2-syusei.png" media="(min-width: 768px)">
+							 <img src="img/sec2-setwinCP2-sp.png" alt="">
+						   </picture>
+					</div>
+				</div>-->
+			</div> 
+		 </section>	 
+		 
+		<!--section04-->	
+		<section class="section sec04 pconly">
+			<div class="text-img pconly">
+				 <img src="img/sec4-text-areawin.png" alt="速さも、価格も、あなたにぴったりのネットで。この夏、快適な毎日をはじめよう">
+			  </div>	
+		  </section>
+		<!--section04のSPサイズ時--> 
+		<div class="text-img sponly">
+			<img src="img/sec4-sparawin.png" alt="速さも、価格も、あなたにぴったりのネットで。この夏、快適な毎日をはじめよう">
+		</div>	
+		 
+		 <!--section05-->
+		   <section class="section sec05">
+			<div class="inner-05ver center">
+				 <div class="ttl-img">
+					<picture>
+						<source srcset="img/sec5-ttl.png" media="(min-width: 768px)">
+						<img src="img/sec5-ttl_sp.png" alt="インターネットご利用開始までの流れ">
+					</picture>
+				</div>	
+
+				<div class="point-area">
+					<div class="tab-cont cont01">
+						<div class="num-box flex">
+							<div class="num1">
+								<picture>
+									<source srcset="img/sec5-step1-po.png" media="(min-width: 1024px)">
+									<img src="img/sec5-step1-posp.png" alt="1加入お申し込み">
+								</picture>
+							</div>
+							<div class="textarea">
+								<h2>お問い合わせ</h2>
+								<p>フォームまたはお電話にてお問い合わせください。</p>
+							</div>
+						</div>
+		
+						<div class="num-box2 flex">
+							<div class="num2">
+								<picture>
+									<source srcset="img/sec5-step2-po.png" media="(min-width: 1024px)">
+									<img src="img/sec5-step2-posp.png" alt="1加入お申し込み">
+								</picture>
+							</div>
+							<div class="textarea">
+								<h2>ご契約</h2>
+								<p>お問い合わせ後、サービス内容の説明を行います。<br>内容にご納得いただいたうえで、契約を進めさせていただきます。</p>
+								</div>
+							</div>
+				
+						<div class="num-box3 flex">
+							<div class="num3">
+								<picture>
+									<source srcset="img/sec5-step3-po.png" media="(min-width: 1024px)">
+									<img src="img/sec5-step3-posp.png" alt="1加入お申し込み">
+								</picture>
+							</div>
+							<div class="textarea">
+								<h2>工事日程調整・工事開始</h2>
+								<p>工事アポイントの連絡が入ります。工事希望日・時間をご相談ください。<br>新規・改築等により、工事日の指定や工事内容の確認・指示などがある場合は、お早めにお知らせください。</p>
+							</div>
+						</div>
+		
+						<div class="num-box4 flex">
+							<div class="num">
+								<picture>
+									<source srcset="img/sec5-step4-po.png" media="(min-width: 1024px)">
+									<img src="img/sec5-step4-posp.png" alt="1加入お申し込み">
+								</picture>
+							</div>
+							<div class="textarea">
+								<h2>ご利用開始</h2>
+								<p>工事が完了後、すぐにご利用いただけます。</p>
+							</div>
+						</div>
+					</div>
+				</div>	
+			</div>
+		</section>
+
+		<section class="sec-faq section">
+			<div class="inner">
+				<div class="ttl">
+					<picture>
+						<source srcset="img/faq-ttl_pc.png" media="(min-width: 1024px)">
+						<img src="img/faq-ttl_sp.png" alt="よくある質問をズーミィちゃんがまとめて回答!">
+					</picture>
+				</div>
+				<div class="acMenu"><span class="ico"><img src="img/faq-ico.png" alt="Q&A"></span>よくある質問</div>
+				<div class="faq-container">
+					<div class="faq-item">
+						<div class="question">光10Gを利用するために準備するものはありますか？</div>
+						<div class="answer">光10Gの高速通信を十分に活かすには、10G対応のWi-Fiルーターやパソコン、LANケーブル（CAT6A以上）などの対応機器が必要です。<br>対応機器でない場合でもご利用いただけますが、通信速度は機器の性能に応じます。</div>
+					</div>
+					<div class="faq-item">
+						<div class="question">ルーターは自分で用意する必要がありますか？</div>
+						<div class="answer">市販のルーターをお客様ご自身でご用意いただく必要があります。<br>なお、弊社ではメッシュWi-Fiのレンタルも行っておりますので、お気軽にお申し付けください。</div>
+					</div>
+					<div class="faq-item">
+						<div class="question">どのくらいの期間で利用できるようになりますか？</div>
+						<div class="answer">通常最短でお申し込みから10日程度でご利用いただけます。</div>
+					</div>
+					<div class="faq-item">
+						<div class="question">プロバイダ料金はかかりますか？</div>
+						<div class="answer">月額料金に含まれているため、追加でプロバイダ料金をお支払いいただく必要はございません。</div>
+					</div>
+					<div class="faq-item">
+						<div class="question">どんな工事を行いますか？</div>
+						<div class="answer">基本、電話線の配管やエアコンダクトなどの既存の引込口を利用して、光ファイバーを宅内へ引き込む工事を行います。お客様宅の状況によっては、この限りではありません。</div>
+					</div>
+					<div class="faq-item">
+						<div class="question">対応している支払い方法の種類を教えてください。</div>
+						<div class="answer">銀行口座振替、またはクレジットカード決済がご利用いただけます。</div>
+					</div>
+					<div class="faq-item">
+						<div class="question">開通工事費はいくらかかりますか？</div>
+						<div class="answer">工事費割引キャンペーンにより、工事費実質無料でネット回線がご利用いただけます。<br>ただし、制約期間内に解約された場合は、残りの工事費用をお客様にてご負担いただきます。</div>
+					</div>
+					<div class="faq-item">
+						<div class="question">サービス提供エリアを教えてください。</div>
+						<div class="answer">射水市全域および、高岡市牧野地区となっております。</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="form-container" class="section sec06">
+			<div class="inner">
+				<div class="ttl-img2">
+					<img src="img/sec6-ttl.png" alt="">
+				 </div>
+			
+				<div class="form-area">
+					<form action="send.php" method="post" class="js-validation">
+						<div class="c-form">
+							<div class="c-form__content">
+								<dl>
+									<dt>
+										<p class="name">お問い合わせの種類</p>
+										<p class="require">必須</p>
+									</dt>
+									<dd>
+										<ul class="list">
+											<li>
+												<input type="radio" id="check01" name="type[]" value="まずは相談をしたい" class="validate[required]" checked>
+												<label for="check01">まずは相談をしたい</label>
+											</li>
+											<li>
+												<input type="radio" id="check02" name="type[]" value="契約をしたい" class="validate[required]">
+												<label for="check02">契約をしたい</label>
+											</li>
+											<li>
+												<input type="radio" id="check03" name="type[]" value="その他お問い合せ" class="validate[required]">
+												<label for="check03">その他お問い合せ</label>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<p class="name">お名前</p>
+										<p class="require">必須</p>
+									</dt>
+									<dd>
+										<input type="text" placeholder="例）射水太郎" name="name" class="wfull validate[required]">
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<p class="name">ご住所</p>
+										<p class="require">必須</p>
+									</dt>
+									<dd>
+										<input type="text" placeholder="例）射水市本町2丁目10-30" name="address" class="wfull validate[required]">
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<p class="name">電話番号</p>
+										<p class="require">必須</p>
+									</dt>
+									<dd>
+										<input type="tel" placeholder="例）09001234567" name="tel" class="wfull validate[required,custom[phone]]">
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<p class="name">メールアドレス</p>
+										<p class="require">必須</p>
+									</dt>
+									<dd>
+										<input type="email" placeholder="例）sample@po11.canet.ne.jp" name="email" class="wfull validate[required,custom[email]]">
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<p class="name">ご相談内容・ご質問・その他</p>
+									</dt>
+									<dd>
+										<textarea name="message" placeholder="インターネットの契約特典について聞きたい。" rows="10" class="wfull"></textarea>
+									</dd>
+								</dl>
+							</div>
+							<div class="c-form__privacy">
+								<div class="privacy_ttl">注意事項</div>
+								<div class="privacy_txt">
+									・契約可能エリアは、射水市全域・高岡市牧野地区となります。<br>
+									・各サービスごとに最低利用期間を設けております。<br>
+									　テレビ、インターネット（戸建て）：24カ月<br>
+									　テレビ、インターネット（マンション）：6カ月<br>
+									 （本サービスコース料金適用月の初日を起算日とし、該当期間を経過する月の末日を満了日とします）<br>
+									・本書に記載のない事項については、射水ケーブルネットワーク契約約款に準拠するものとします。<br>
+									　契約規約は<a href="https://www.canet.ne.jp/support/kiyaku/" target="_blank">こちら</a>
+								</div>
+							</div>
+							<div class="c-form__privacy-txt01">
+								<div class="privacy-txt01">上記の注意事項を確認し、内容に同意の上送信します。</div>
+								<label><input type="checkbox" name="privacy" value="注意事項について：上記の内容で間違いない" class="validate[required]">上記の内容で間違いない</label>
+							</div>
+							<div class="c-form__submit">
+								<input type="submit" value="入力内容を送信する" class="ov">
+							</div>
+						</div>
+					</form>
+				</div>	
+			 </div>
+	  </section>
+	</main>
+	<footer>
+		<div class="inner cente font-sizer">&copy;2000-2026 射水ケーブルネットワーク</div>      
+	</footer>
+	<div class="floating">
+		<div class="cp-img">
+			<a class="js-scroll" href="#cam01">
+			<picture>
+				<source srcset="img/floating_pc.png" media="(min-width: 768px)">
+				 <img src="img/floating_sp.png" alt="8月31日まで夏キャンペーン開催中！他社違約金 最大10万円キャッシュバック。">
+			</picture>
+			</a>
+		</div>
+		<div class="contact-item">
+			<div class="tel-btn item"><a href="tel:0120-82-7320"><img src="img/floating_tel.png" alt="お電話でも申し込み可能!"></a></div>
+			<div class="c-btn item"><a class="js-scroll" href="#form-container">問い合わせする</a></div>
+		</div>
+	</div>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.matchHeight-min.js"></script>
+<script type="text/javascript" src="js/jquery.validationEngine.js"></script>
+<script type="text/javascript" src="js/jquery.validationEngine-ja.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
 </body>
 </html>
