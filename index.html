@@ -177,16 +177,21 @@
     <!-- シミュレーター用ポップアップモーダル（追加箇所） -->
     <dialog id="simulator-modal" style="width: 90%; max-width: 800px; height: 85vh; border: none; border-radius: 12px; padding: 0; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
         <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background-color: #f8f9fa; border-bottom: 1px solid #dee2e6;">
-            <span style="font-weight: bold; font-size: 16px; color: #333;">射水ケーブルテレビ 料金シミュレーター</span>
+            <span style="font-weight: bold; font-size: 16px; color: #333;">射水ケーブルネットワーク 料金シミュレーター</span>
             <button id="close-simulator-btn" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #6c757d;">&times;</button>
         </div>
         <iframe 
             src="https://imizucatv.github.io/cable-simulator/" 
             style="width: 100%; height: calc(100% - 53px); border: none;" 
-            title="射水ケーブルテレビ 料金シミュレーター">
+            title="射水ケーブルネットワーク 料金シミュレーター">
         </iframe>
     </dialog>
-
+    <script>
+       const simModal = document.getElementById('sim-modal');
+       document.getElementById('open-sim-btn').addEventListener('click', () => simModal.showModal());
+       document.getElementById('close-sim-btn').addEventListener('click', () => simModal.close());
+       simModal.addEventListener('click', (e) => { if (e.target === simModal) simModal.close(); });
+    </script>
     <!-- シミュレーター用スクリプト（追加箇所） -->
     <script>
         const simulatorModal = document.getElementById('simulator-modal');
