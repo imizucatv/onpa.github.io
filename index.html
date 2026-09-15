@@ -320,14 +320,16 @@
 										<input type="email" placeholder="例）sample@po11.canet.ne.jp" name="email" class="wfull validate[required,custom[email]]">
 									</dd>
 								</dl>
-							    <dl>
+                                <dl>
 									<dt>
 										<p class="name">シミュレーション結果添付</p>
-										<p class="option" style="background:#6c757d; color:#fff; font-size:11px; padding:2px 6px; border-radius:3px; margin-left:8px; display:inline-block;">任意</p>
+										<p class="option" style="background:#6c757d; color:#fff; font-size:11px; padding:2px 6px; border-radius:3px; margin-left:8px; display:inline-block;">自動添付</p>
 									</dt>
 									<dd>
+										<div id="pdf-status" style="display: none; background-color: #e8f5e9; border: 2px solid #4caf50; color: #2e7d32; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 14px; margin-bottom: 10px;">
+											🎉 シミュレーション結果（料金試算結果.pdf）を自動添付しました！
+										</div>
 										<input type="file" id="pdf-attachment" name="pdf_file" accept=".pdf,image/*" class="wfull" style="padding: 8px 0;">
-										<p id="pdf-status" style="color: #28a745; font-size: 13px; font-weight: bold; margin-top: 5px;"></p>
 									</dd>
 								</dl>
 								<dl>
