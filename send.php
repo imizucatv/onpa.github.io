@@ -24,7 +24,6 @@ $FROM_NAME = '射水ケーブルネットワーク株式会社';
 $FROM_ADDR = 'info@canet.ne.jp';
 
 $TO_ADMIN = [
-    'sales@catvnet.co.jp',
     'kikaku@imizucable.com',
 ];
 
@@ -252,14 +251,28 @@ try {
     $mailer->addReplyTo($emailRaw, $replyToName);
     $mailer->Subject = $subject_admin;
     $mailer->Body = $bodyAdmin;
+
+    // ★追加: フォームからPDFファイルがアップロードされているか確認して添付
+    if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
+        $fileName = !empty($_FILES['pdf_file']['name']) ? $_FILES['pdf_file']['name'] : '料金試算結果.pdf';
+        $mailer->addAttachment($_FILES['pdf_file']['tmp_name'], $fileName);
+    }
+
     $mailer->send();
 
+    // ユーザー宛自動返信メールの設定
     $mailer->clearAddresses();
     $mailer->clearReplyTos();
+    $mailer->clearAttachments(); // ★追加: 管理者宛のみ添付し、自動返信メールからは添付を外す場合
+
     $mailer->addAddress($emailRaw, $replyToName);
     $mailer->addReplyTo($FROM_ADDR, $FROM_NAME);
     $mailer->Subject = $subject_user;
     $mailer->Body = $bodyUser;
+
+    // ※もしユーザー宛の自動返信メールにも試算結果PDFを添えて送りたい場合は、
+    // 上の $mailer->clearAttachments(); をコメントアウト（または削除）してください。
+
     $mailer->send();
 
     respondSuccess($isJsonRequest);
