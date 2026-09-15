@@ -233,9 +233,31 @@
 					<img src="img/sec6-ttl.png" alt="">
 				 </div>
 			
-                <p class="buttons">
-                    <button class="button is-info is-medium" id="open-simulator-btn">料金シミュレーター</button>
-                </p>
+<!-- 料金シミュレーター案内バナー（目立つグラデーションデザイン） -->
+				<div style="text-align: center; margin: 35px 0 25px 0;">
+					<p style="font-size: 15px; font-weight: bold; color: #d9534f; margin-bottom: 8px;">
+						＼ 契約前の月額チェック！カンタン30秒 ／
+					</p>
+					<button id="open-simulator-btn" style="
+						display: inline-block;
+						width: 90%;
+						max-width: 500px;
+						padding: 18px 24px;
+						background: linear-gradient(135deg, #ff9800 0%, #ff5722 100%);
+						color: #ffffff;
+						font-size: 20px;
+						font-weight: bold;
+						border: none;
+						border-radius: 50px;
+						box-shadow: 0 8px 20px rgba(255, 87, 34, 0.4);
+						cursor: pointer;
+						transition: transform 0.2s, box-shadow 0.2s;
+						outline: none;
+					" onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='0 12px 25px rgba(255, 87, 34, 0.5)';" 
+					  onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(255, 87, 34, 0.4)';">
+						🧮 今すぐ料金シミュレーションしてみる ➔
+					</button>
+				</div>
 				<div class="form-area">
 					<form action="send.php" method="post" class="js-validation">
 						<div class="c-form">
